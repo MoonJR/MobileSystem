@@ -90,11 +90,13 @@ function onListening() {
     debug('Listening on ' + bind);
 }
 
-var client = {};
+var clients = [];
 
 var server = net.createServer(function (client) {
     console.log('   local = %s:%s', client.localAddress, client.localPort);
     console.log('   remote = %s:%s', client.remoteAddress, client.remotePort);
+
+    clients.push(client);
 
     // client.on('data', function (data) {
     //     console.log('Client sent ' + data.toString());
@@ -108,4 +110,4 @@ server.listen(8107, function () {
     console.log('Server listening for connection');
 });
 
-exports.clients = client;
+exports.clients = clients;
