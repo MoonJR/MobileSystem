@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('untitled1:server');
 var http = require('http');
+var net = require('net');
 
 /**
  * Get port from environment and store in Express.
@@ -88,3 +89,23 @@ function onListening() {
         : 'port ' + addr.port;
     debug('Listening on ' + bind);
 }
+
+var client = {};
+
+var server = net.createServer(function (client) {
+    console.log('   local = %s:%s', client.localAddress, client.localPort);
+    console.log('   remote = %s:%s', client.remoteAddress, client.remotePort);
+
+    // client.on('data', function (data) {
+    //     console.log('Client sent ' + data.toString());
+    // });
+    // client.on('end', function () {
+    //     console.log('Client disconnected');
+    // });
+    // client.write('Hello');
+});
+server.listen(8107, function () {
+    console.log('Server listening for connection');
+});
+
+exports.clients = client;
