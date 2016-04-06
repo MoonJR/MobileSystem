@@ -8,6 +8,7 @@ var app = require('../app');
 var debug = require('debug')('untitled1:server');
 var http = require('http');
 var net = require('net');
+var flag = require('../manager/flag');
 
 /**
  * Get port from environment and store in Express.
@@ -92,21 +93,42 @@ function onListening() {
 
 var clients = [];
 
-var server = net.createServer(function (client) {
-    console.log('   local = %s:%s', client.localAddress, client.localPort);
+var socketServer = net.createServer(function (client) {
     console.log('   remote = %s:%s', client.remoteAddress, client.remotePort);
 
-    clients.push(client.remoteAddress);
+    var clientTmp = {};
+    clientTmp.client = client;
+    clientTmp.onRead = function (data) {
+        try {
+            data = JSON.parse(data);
+            console.log(data);
+            if (data.flag == flag.FLAG_REG_DEVICE) {
+                this.id = data.id;
+                this.deviceName = data.deviceName;
+                this.write(JSON.stringify(flag.FLAG_SUCCESS) + '\n');
+            } else if (data.flag = flag.FLAG_SEND_DATA) {
+                this.res.json(data);
+            } else {
+                this.write(flag.FLAG_FAIL);
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    };
+    clients.push(client);
+    client.on('data', clientTmp.onRead);
+    client.on('end', function () {
+        console.log('   remote = %s:%s close', client.remoteAddress, client.remotePort);
+        for (var i = 0; i < clients.length; i++) {
+            if (client === clients[i]) {
+                clients.splice(i, 1);
+                return;
+            }
+        }
 
-    // client.on('data', function (data) {
-    //     console.log('Client sent ' + data.toString());
-    // });
-    // client.on('end', function () {
-    //     console.log('Client disconnected');
-    // });
-    // client.write('Hello');
+    });
 });
-server.listen(8107, function () {
+socketServer.listen(8107, function () {
     console.log('Server listening for connection');
 });
 

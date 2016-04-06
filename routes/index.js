@@ -9,4 +9,5 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/get', test.getClient);
+router.get('/write', test.write);
 module.exports = router;
