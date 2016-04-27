@@ -13,7 +13,7 @@ exports.login = function (req, res, next) {
     }
 
     req.session.user = 'root';
-    next();
+    res.redirect('back');
 };
 
 exports.checkSession = function (req, res, next) {
