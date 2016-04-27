@@ -2,12 +2,11 @@
  * Created by MoonJR on 2016. 4. 19..
  */
 var app = angular.module('MobileSystem', []);
-app.controller('connectCtrl', function ($scope, $http) {
+app.controller('connectCtrl', function ($scope, $http, $timeout) {
 
     $scope.env = {
-        temp: 10,
-        hum: 50,
-        width: 50,
+        temp: Math.floor((23 + Math.random())*100)/100,
+        hum: Math.floor((70 + Math.random())*100)/100,
     };
 
     $scope.door = [
@@ -36,6 +35,15 @@ app.controller('connectCtrl', function ($scope, $http) {
     $scope.changeSwitch = function (index) {
         $scope.switch[index].status = "<i class='fa fa-spinner fa-spin'></i> Processing Order";
     };
+
+    $scope.refresh = function () {
+        $timeout(function () {
+            $scope.env.temp = Math.floor((23 + Math.random())*100)/100;
+            $scope.env.hum = Math.floor((70 + Math.random())*100)/100;
+            $scope.refresh();
+        }, 3000);
+    };
+
     //<i class='fa fa-spinner fa-spin'></i> Processing Order
 
     // $scope.sendLogin = function () {

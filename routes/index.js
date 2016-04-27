@@ -1,10 +1,15 @@
 var express = require('express');
 var test = require('./test');
+var login = require('./login');
 var router = express.Router();
 
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
+router.get('/', login.checkSession, function (req, res) {
+    res.render('index', {title: 'Express'});
+});
+
+router.post('/login', login.login, function (req, res) {
     res.render('index', {title: 'Express'});
 });
 
