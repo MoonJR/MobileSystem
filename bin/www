@@ -95,7 +95,6 @@ var clients = [];
 
 var socketServer = net.createServer(function (client) {
     console.log('   remote = %s:%s', client.remoteAddress, client.remotePort);
-
     var clientTmp = {};
     clientTmp.client = client;
     clientTmp.onRead = function (data) {
@@ -103,9 +102,17 @@ var socketServer = net.createServer(function (client) {
             data = JSON.parse(data);
             console.log(data);
             if (data.flag == flag.FLAG_REG_DEVICE) {
+                for (var i = 0; i < clients.length; i++) {
+                    if (clients[i].id == data.id) {
+                        clients[i].destroy();
+                        clients.splice(i, 1);
+                        break;
+                    }
+                }
                 this.id = data.id;
                 this.deviceName = data.deviceName;
                 this.write(JSON.stringify(flag.FLAG_SUCCESS) + '\n');
+                clients.push(client);
             } else if (data.flag = flag.FLAG_SEND_DATA) {
                 this.res.json(data);
             } else {
@@ -115,7 +122,6 @@ var socketServer = net.createServer(function (client) {
             console.log(e);
         }
     };
-    clients.push(client);
     client.on('data', clientTmp.onRead);
     client.on('end', function () {
         console.log('   remote = %s:%s close', client.remoteAddress, client.remotePort);
@@ -128,6 +134,7 @@ var socketServer = net.createServer(function (client) {
 
     });
 });
+
 socketServer.listen(8107, function () {
     console.log('Server listening for connection');
 });
