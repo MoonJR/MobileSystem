@@ -5,8 +5,8 @@ var app = angular.module('MobileSystem', []);
 app.controller('connectCtrl', function ($scope, $http, $timeout) {
 
     $scope.env = {
-        temp: Math.floor((23 + Math.random())*100)/100,
-        hum: Math.floor((70 + Math.random())*100)/100,
+        temp: "Loading...",
+        hum: "Loading...",
     };
 
     $scope.door = [
@@ -38,37 +38,20 @@ app.controller('connectCtrl', function ($scope, $http, $timeout) {
 
     $scope.refresh = function () {
         $timeout(function () {
-            $scope.env.temp = Math.floor((23 + Math.random())*100)/100;
-            $scope.env.hum = Math.floor((70 + Math.random())*100)/100;
+            $scope.getEco();
             $scope.refresh();
         }, 3000);
     };
 
-    //<i class='fa fa-spinner fa-spin'></i> Processing Order
-
-    // $scope.sendLogin = function () {
-    //     if ($scope.login.email == '') {
-    //         toastr.warning('이메일을 입력해 주세요.', 'Warning');
-    //         return;
-    //     } else if ($scope.login.passwd == '') {
-    //         toastr.warning('비밀번호를 입력해 주세요.', 'Warning');
-    //         return;
-    //     }
-    //     $scope.login.isLoading = true;
-    //
-    //     $http.post('/login', $scope.login).success(function (response) {
-    //         if (response.success_code == 2000) {
-    //             $scope.successLogin(true);
-    //         } else if (response.success_code = 3000) {
-    //             toastr.error('로그인 실패\n정보를 확인해 주세요.', 'Error');
-    //         } else {
-    //             toastr.error('서버 오류.', 'Error');
-    //         }
-    //         $scope.login.isLoading = false;
-    //     }).error(function () {
-    //         toastr.error('서버 오류.', 'Error');
-    //         $scope.login.isLoading = false;
-    //     });
-    // };
+    $scope.getEco = function () {
+        $http.get('/getEco?id=101').success(function (response) {
+            if (response.flag == 2) {
+                $scope.env.temp = response.temp;
+                $scope.env.hum = response.hum;
+            }
+        }).error(function () {
+            console.log("error");
+        });
+    };
 
 });
