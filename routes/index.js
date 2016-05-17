@@ -15,5 +15,5 @@ router.post('/login', login.login, function (req, res) {
 
 router.get('/get', test.getClient);
 router.get('/write', test.write);
-router.get('/getEco',test.getClient);
+router.get('/getEco',test.getEco);
 module.exports = router;
