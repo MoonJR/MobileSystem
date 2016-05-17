@@ -113,9 +113,9 @@ var socketServer = net.createServer(function (client) {
                 this.deviceName = data.deviceName;
                 this.write(JSON.stringify(flag.FLAG_SUCCESS) + '\n');
                 clients.push(client);
-            } else if (data.flag = flag.FLAG_SEND_DATA) {
+            } else if (data.flag == flag.FLAG_SEND_DATA) {
                 this.res.json(data);
-            } else if (data.flag = flag.FLAG_SAVE_DATA) {
+            } else if (data.flag == flag.FLAG_SAVE_DATA) {
                 this.data = data;
                 this.write(JSON.stringify(flag.FLAG_SUCCESS) + '\n');
             } else {
