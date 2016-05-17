@@ -36,3 +36,17 @@ exports.write = function (req, res) {
 
 };
 
+exports.getEco = function (req, res) {
+
+    var id = Number(req.query.id);
+
+    for (var i = 0; i < www.clients.length; i++) {
+        if (www.clients[i].id == id) {
+            res.json(www.clients[i].data);
+            return;
+        }
+    }
+
+    res.send('존재하지 않는 기기 입니다.');
+
+};

@@ -115,6 +115,9 @@ var socketServer = net.createServer(function (client) {
                 clients.push(client);
             } else if (data.flag = flag.FLAG_SEND_DATA) {
                 this.res.json(data);
+            } else if (data.flag = flag.FLAG_SAVE_DATA) {
+                this.data = data;
+                this.write(JSON.stringify(flag.FLAG_SUCCESS) + '\n');
             } else {
                 this.write(flag.FLAG_FAIL);
             }
