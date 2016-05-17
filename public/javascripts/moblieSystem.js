@@ -22,7 +22,7 @@ app.controller('connectCtrl', function ($scope, $http, $timeout) {
         {isOpen: false, time: 1461119758000},
         {isOpen: true, time: 1461119858000}];
 
-    $scope.switch = [{status: '열림'}, {status: '열림'}, {status: '열림'}, {status: '열림'}];
+    $scope.switch = [{status: 'off'}, {status: 'off'}, {status: 'off'}, {status: 'off'}];
 
     $scope.getDoorStatusStr = function (isOpen) {
         if (isOpen) {
@@ -33,7 +33,24 @@ app.controller('connectCtrl', function ($scope, $http, $timeout) {
     };
 
     $scope.changeSwitch = function (index) {
-        $scope.switch[index].status = "<i class='fa fa-spinner fa-spin'></i> Processing Order";
+        var data = {
+            flag: 1,
+            socket: (index + 9),
+        };
+
+        if ($scope.switch[index].status == "off") {
+            data.switch = 'on';
+        } else {
+            data.switch = 'off';
+        }
+
+        $http.get('/write?id=100&data=' + JSON.stringify(data)).success(function (response) {
+            if (response.flag == 1) {
+                $scope.switch.status = response.switch;
+            }
+        }).error(function () {
+            console.log("error");
+        });
     };
 
     $scope.refresh = function () {
