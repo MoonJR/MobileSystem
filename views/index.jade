@@ -143,9 +143,9 @@ html(lang='en')
             .follow-heading
               h3 스위치 컨트롤
             .vert-top(ng-repeat='x in switch')
-              li.se Switch 1
+              li.se Switch {{x.num}}
               li.hom
-                button.btn-sm.btn-info(ng-click='changeSwitch(0)')
+                button.btn-sm.btn-info(ng-click='changeSwitch(x.num)')
                   | {{x.status}}
               .clearfix
           h2.resp-accordion(role='tab', aria-controls='tab_item-6')

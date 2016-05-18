@@ -169,9 +169,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <h3>스위치 컨트롤</h3>
                 </div>
                 <div class="vert-top" ng-repeat="x in switch">
-                    <li class="se">Switch 1</li>
+                    <li class="se">Switch {{x.num}}</li>
                     <li class="hom">
-                        <button class="btn-sm btn-info" ng-click="changeSwitch(0)">{{x.status}}
+                        <button class="btn-sm btn-info" ng-click="changeSwitch(x.num)">{{x.status}}
                         </button>
                     </li>
                     <div class="clearfix"></div>
