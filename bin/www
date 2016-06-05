@@ -21,6 +21,12 @@ app.set('port', port);
  * Create HTTP server.
  */
 
+var gcm = require('node-gcm');
+
+
+// Set up the sender with you API key, prepare your recipients' registration tokens.
+var sender = new gcm.Sender('AIzaSyBClvvq5wbhn9oRA9Zr7trU6RTL5DG8VfM');
+var regTokens = ['dxqdJh0uYj8:APA91bGLjwoXbqsurKlM9dhOmnC1NXam5R0ATOXbMPvRHTIvSmsaQ-IX1ijZ9I1Xy2aymiYih8UfzPj_ZACrqWuklN2-4PXu4fzwWvSm47Ijv2k17G97bKd8G_qLiMkjyXDlLorKw93C'];
 var server = http.createServer(app);
 
 /**
@@ -118,6 +124,17 @@ var socketServer = net.createServer(function (client) {
             } else if (data.flag == flag.FLAG_SAVE_DATA) {
                 this.data = data;
                 this.write(JSON.stringify(flag.FLAG_SUCCESS) + '\n');
+            } else if (data.flag == flag.FLAG_SEND_PUSH) {
+                var message = new gcm.Message({
+                    data: {message: 'msg1'}
+                });
+                sender.send(message, {registrationTokens: regTokens}, function (err, response) {
+                    if (err) console.error(err);
+                    else    console.log(response);
+
+                    this.write(JSON.stringify(flag.FLAG_SUCCESS) + '\n');
+                });
+
             } else {
                 this.write(flag.FLAG_FAIL);
             }
@@ -141,5 +158,6 @@ var socketServer = net.createServer(function (client) {
 socketServer.listen(8107, function () {
     console.log('Server listening for connection');
 });
+
 
 exports.clients = clients;
