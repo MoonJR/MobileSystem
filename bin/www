@@ -131,8 +131,6 @@ var socketServer = net.createServer(function (client) {
                 sender.send(message, {registrationTokens: regTokens}, function (err, response) {
                     if (err) console.error(err);
                     else    console.log(response);
-
-                    this.write(JSON.stringify(flag.FLAG_SUCCESS) + '\n');
                 });
 
             } else {
