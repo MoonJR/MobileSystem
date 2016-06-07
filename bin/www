@@ -26,7 +26,7 @@ var gcm = require('node-gcm');
 
 // Set up the sender with you API key, prepare your recipients' registration tokens.
 var sender = new gcm.Sender('AIzaSyBClvvq5wbhn9oRA9Zr7trU6RTL5DG8VfM');
-var regTokens = ['dxqdJh0uYj8:APA91bGLjwoXbqsurKlM9dhOmnC1NXam5R0ATOXbMPvRHTIvSmsaQ-IX1ijZ9I1Xy2aymiYih8UfzPj_ZACrqWuklN2-4PXu4fzwWvSm47Ijv2k17G97bKd8G_qLiMkjyXDlLorKw93C'];
+var regTokens = ['dxqdJh0uYj8:APA91bGLjwoXbqsurKlM9dhOmnC1NXam5R0ATOXbMPvRHTIvSmsaQ-IX1ijZ9I1Xy2aymiYih8UfzPj_ZACrqWuklN2-4PXu4fzwWvSm47Ijv2k17G97bKd8G_qLiMkjyXDlLorKw93C','f2CygkKlUGk:APA91bFB-4DQ0Jnvh47ypiXGpuE9JE5o070Fj_9naediy-CkeXikjE-r6WGHRttsh87qUbBhAaxlHUhNr41dsBoQuTwvJmipIyH1h9UQLEQM4S7sDjAuh7qMATrI1SwGCnCXrUiFs2DJ'];
 var server = http.createServer(app);
 
 /**
